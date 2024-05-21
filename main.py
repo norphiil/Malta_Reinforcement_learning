@@ -36,7 +36,7 @@ class Deck:
         self.create()
 
     def create(self):
-        self.cards = []
+        self.cards: list[Card] = []
         for suit in ["♥", "♦", "♣", "♠"]:
             for card in CARD:
                 self.cards.append(Card(card, suit, CARD[card]))
@@ -54,8 +54,8 @@ class Deck:
 class User:
     def __init__(self):
         self.cards: list[Card] = []
-        self.usable_ace = False
-        
+        self.usable_ace: bool = False
+
     def reset(self):
         self.cards = []
 
@@ -63,8 +63,8 @@ class User:
         self.cards.append(card)
 
     def get_score(self):
-        score = 0
-        num_aces = 0
+        score: int = 0
+        num_aces: int = 0
         card: Card
         for card in self.cards:
             score += card.value
@@ -74,7 +74,7 @@ class User:
         while score > 21 and num_aces:
             score -= 10
             num_aces -= 1
-            
+
         if num_aces >= 1:
             self.usable_ace = True
         else:
@@ -97,13 +97,13 @@ class Dealer(User):
 
 
 class PlayerRLAgent(Player):
-    def __init__(self, alpha=0.1, gamma=0.9, epsilon=0.9):
+    def __init__(self, alpha: float = 0.1, gamma: float = 0.9, epsilon: float = 0.9):
         super().__init__()
-        self.alpha = alpha  # learning rate
-        self.gamma = gamma  # discount factor
-        self.epsilon = epsilon  # exploration rate
-        self.q_table = {}  # Q(s, a) table
-        self.q_table_counts = {}  # Q(s, a) table for counts
+        self.alpha: float = alpha  # learning rate
+        self.gamma: float = gamma  # discount factor
+        self.epsilon: float = epsilon  # exploration rate
+        self.q_table: dict = {}  # Q(s, a) table
+        self.q_table_counts: dict = {}  # Q(s, a) table for counts
 
     def choose_action(self, state):
         if random.random() < self.epsilon:
@@ -112,34 +112,34 @@ class PlayerRLAgent(Player):
             return self.get_best_action(state)  # exploit
 
     def get_best_action(self, state):
-        #print("Choosing best action")
+        # print("Choosing best action")
         if state not in self.q_table:
-            #print(f"State {state} not in Q-table")
+            # print(f"State {state} not in Q-table")
             self.q_table[state] = {"h": 0.0, "s": 0.0}
         return max(self.q_table[state], key=self.q_table[state].get)
 
     def update_q_table(self, state, action, reward, next_state):
         self.q_table_counts.setdefault(state, {}).setdefault(action, 0)
         self.q_table_counts[state][action] += 1
-        
+
         if next_state is None:
             next_state_value = 0
         else:
             next_state_value = max(self.q_table.get(next_state, {"h": 0.0, "s": 0.0}).values())
-            #print("\n*****Next state value = %5.2f*****\n" % (next_state_value))
-            
+            # print("\n*****Next state value = %5.2f*****\n" % (next_state_value))
+
         current_value = self.q_table.get(state, {"h": 0.0, "s": 0.0}).get(action, 0.0)
         new_value = (1 - self.alpha) * current_value + self.alpha * (reward + self.gamma * next_state_value)
         self.q_table.setdefault(state, {"h": 0.0, "s": 0.0})[action] = new_value
-        
+
     def print_q_table(self):
         sorted_q_table = sorted(self.q_table.items(), key=lambda x: (x[0][0], x[0][1]))
 
         for key, value in sorted_q_table:
             print(key, value)
-        
+
         print("__________________________________________")
-            
+
         sorted_q_table_c = sorted(self.q_table_counts.items(), key=lambda x: (x[0][0], x[0][1]))
 
         for key, value in sorted_q_table_c:
@@ -148,9 +148,9 @@ class PlayerRLAgent(Player):
 
 class BlackJackWithRL:
     def __init__(self, deck: Deck, player: Player, dealer: Dealer):
-        self.deck = deck
-        self.player = player
-        self.dealer = dealer
+        self.deck: Deck = deck
+        self.player: Player = player
+        self.dealer: Dealer = dealer
         self.win_count = 0
         self.loss_count = 0
         self.draw_count = 0
@@ -162,13 +162,13 @@ class BlackJackWithRL:
         self.player.add_card(self.deck.draw_card())
         self.dealer.add_card(self.deck.draw_card())
 
-        #print("Player: ", self.player)
-        #print("Dealer: ", self.dealer)
-        
+        # print("Player: ", self.player)
+        # print("Dealer: ", self.dealer)
+
         # Player's turn
         while self.player.get_score() < 12:
             self.player.add_card(self.deck.draw_card())
-            #print("Player [Automatic Draw]: ", self.player)
+            # print("Player [Automatic Draw]: ", self.player)
 
         if self.player.get_score() == 21:
             state = None
@@ -189,13 +189,13 @@ class BlackJackWithRL:
 
             if action == "h":
                 self.player.add_card(self.deck.draw_card())
-                #print("Player: ", self.player)
+                # print("Player: ", self.player)
             elif action == "s":
-                #print("Player has chosen to stand")
+                # print("Player has chosen to stand")
                 break
 
         if self.player.get_score() > 21:
-            #print("Player busts! Dealer wins.\n")
+            # print("Player busts! Dealer wins.\n")
             if choose_action_fn:
                 self.loss_count += 1
                 return episode, -1
@@ -206,10 +206,10 @@ class BlackJackWithRL:
         # Dealer's turn
         while self.dealer.get_score() < 17:
             self.dealer.add_card(self.deck.draw_card())
-            #print("Dealer: ", self.dealer)
+            # print("Dealer: ", self.dealer)
 
         if self.dealer.get_score() > 21:
-            #print("Dealer busts! Player wins.\n")
+            # print("Dealer busts! Player wins.\n")
             if choose_action_fn:
                 self.win_count += 1
                 return episode, 1
@@ -218,14 +218,14 @@ class BlackJackWithRL:
             return
 
         if self.player.get_score() > self.dealer.get_score():
-            #print("Player wins!\n")
+            # print("Player wins!\n")
             if choose_action_fn:
                 self.win_count += 1
                 return episode, 1
             elif isinstance(self.player, PlayerRLAgent) and state is not None:
                 self.player.update_q_table(state, action, 1, None)
         elif self.player.get_score() < self.dealer.get_score():
-            #print("Dealer wins!\n")
+            # print("Dealer wins!\n")
             if choose_action_fn:
                 self.loss_count += 1
                 return episode, -1
@@ -233,7 +233,7 @@ class BlackJackWithRL:
                 self.player.update_q_table(state, action, -1, None)
             return
         else:
-            #print("It's a tie!\n")
+            # print("It's a tie!\n")
             self.draw_count += 1
             return episode, 0
 
@@ -241,11 +241,12 @@ class BlackJackWithRL:
         self.game_reset()
         self.deck.shuffle()
 
+        self.player: MonteCarloOnPolicyControl
         choose_action_fn = lambda state, ep_count, ep_len: self.player.choose_action(state, ep_count, ep_len)
 
         episode, reward = self.play(choose_action_fn, episode_count)
         self.player.update_q_table_mc(episode, reward)
-        
+
     def run_episode_sarsa(self, episode_count):
         self.game_reset()
         self.deck.shuffle()
@@ -253,23 +254,23 @@ class BlackJackWithRL:
         self.player.add_card(self.deck.draw_card())
         self.dealer.add_card(self.deck.draw_card())
 
-        #print("Player: ", self.player)
-        #print("Dealer: ", self.dealer)
-        
+        # print("Player: ", self.player)
+        # print("Dealer: ", self.dealer)
+
         player_score = self.player.get_score()
 
         # Player's turn
         while player_score < 12:
             self.player.add_card(self.deck.draw_card())
-            #print("Player [Automatic Draw]: ", self.player)
+            # print("Player [Automatic Draw]: ", self.player)
             player_score = self.player.get_score()
 
         state = (player_score, self.dealer.cards[0].value, self.player.usable_ace)
-        
+
         if player_score == 21:  # Player starts with 21
             state = None
             action = None
-        else: 
+        else:
             action = self.player.choose_action(state, episode_count)
 
         while True:
@@ -277,11 +278,12 @@ class BlackJackWithRL:
                 break
 
             next_state, reward = self.step(action)
-            
+
             if next_state is None:
                 break
 
             next_action = self.player.choose_action(next_state, episode_count)
+            self.player: SARSAOnPolicyControl
             self.player.update_q_table_sarsa(state, action, reward, next_state)
 
             state = next_state
@@ -289,54 +291,55 @@ class BlackJackWithRL:
 
             if action == "s" or state is None:
                 break
-            
+
         # Dealer's turn
         while self.dealer.get_score() < 17:
             self.dealer.add_card(self.deck.draw_card())
-            #print("Dealer: ", self.dealer)
+            # print("Dealer: ", self.dealer)
 
         dealer_score = self.dealer.get_score()
         player_score = self.player.get_score()
         if player_score > 21:
-            #print("Player busts! Dealer wins.\n")
+            # print("Player busts! Dealer wins.\n")
             reward = -1
             self.loss_count += 1
         elif player_score == 21:
             if dealer_score == 21:
-                #print("It's a draw!\n")
+                # print("It's a draw!\n")
                 reward = 0
                 self.draw_count += 1
             else:
-                #print("Player wins!\n")
+                # print("Player wins!\n")
                 reward = 1
                 self.win_count += 1
         elif dealer_score > 21:
-            #print("Dealer busts! Player wins.\n")
+            # print("Dealer busts! Player wins.\n")
             reward = 1
             self.win_count += 1
         else:
             if player_score > dealer_score:
-                #print("Player wins!\n")
+                # print("Player wins!\n")
                 reward = 1
                 self.win_count += 1
             elif player_score < dealer_score:
-                #print("Dealer wins!\n")
+                # print("Dealer wins!\n")
                 reward = -1
                 self.loss_count += 1
             else:
-                #print("It's a tie!\n")
+                # print("It's a tie!\n")
                 reward = 0
                 self.draw_count += 1
 
         # Update Q-table for final game state
         if state is not None:
+            self.player: SARSAOnPolicyControl
             self.player.update_q_table_sarsa(state, action, reward, None)
 
     def step(self, action):
         if action == "h":
             self.player.add_card(self.deck.draw_card())
             player_score = self.player.get_score()
-            #print("Player: ", self.player)
+            # print("Player: ", self.player)
             if player_score > 21:
                 next_state = None
                 reward = -1
@@ -357,12 +360,12 @@ class BlackJackWithRL:
     def start(self, num_episodes=1000):
         self.win_loss_table = []
         for episode_count in range(num_episodes):
-            #print(f"Episode {episode_count}")
-            
+            # print(f"Episode {episode_count}")
+
             if ((episode_count+1) % 1000) == 0:
                 self.win_loss_table.append((self.win_count, self.draw_count, self.loss_count))
                 self.win_count, self.draw_count, self.loss_count = 0, 0, 0
-                
+
             if isinstance(self.player, MonteCarloOnPolicyControl):
                 self.run_episode_mc(episode_count)
             elif isinstance(self.player, SARSAOnPolicyControl):
@@ -371,9 +374,9 @@ class BlackJackWithRL:
                 self.game_reset()
                 self.play()
 
-                
+
 class MonteCarloOnPolicyControl(PlayerRLAgent):
-    def __init__(self, alpha=0.1, gamma=0.9, epsilon=0.1, exploring_starts=False, epsilon_config='1/k'):
+    def __init__(self, alpha: float = 0.1, gamma: float = 0.9, epsilon: float = 0.1, exploring_starts: bool = False, epsilon_config: str = '1/k'):
         super().__init__(alpha, gamma, epsilon)
         self.exploring_starts = exploring_starts
         self.epsilon_config = epsilon_config
@@ -382,10 +385,10 @@ class MonteCarloOnPolicyControl(PlayerRLAgent):
 
     def choose_action(self, state, episode_count, episode):
         if self.exploring_starts and state[0] in range(12, 21) and len(episode) == 1:
-            #print("Explore!")
+            # print("Explore!")
             return random.choice(["h", "s"])
         else:
-            #print("Exploit!!")
+            # print("Exploit!!")
             epsilon = self.calculate_epsilon(episode_count)
             if random.random() < epsilon:
                 return random.choice(["h", "s"])
@@ -407,7 +410,7 @@ class MonteCarloOnPolicyControl(PlayerRLAgent):
         for state, action in episode:
             self.q_table_counts.setdefault(state, {}).setdefault(action, 0)
             self.q_table_counts[state][action] += 1
-        
+
             if (state, action) not in visited_states_actions:
                 visited_states_actions.add((state, action))
                 if (state, action) not in self.returns_sum:
@@ -417,6 +420,7 @@ class MonteCarloOnPolicyControl(PlayerRLAgent):
                 self.returns_count[(state, action)] += 1
                 self.q_table.setdefault(state, {"h": 0.0, "s": 0.0})
                 self.q_table[state][action] = self.returns_sum[(state, action)] / self.returns_count[(state, action)]
+
 
 class SARSAOnPolicyControl(PlayerRLAgent):
     def __init__(self, alpha=0.1, gamma=0.9, epsilon=0.1, epsilon_config='1/k'):
@@ -445,10 +449,10 @@ class SARSAOnPolicyControl(PlayerRLAgent):
     def update_q_table_sarsa(self, state, action, reward, next_state):
         if state is None or state[0] == 21:
             return
-    
+
         self.q_table_counts.setdefault(state, {}).setdefault(action, 0)
         self.q_table_counts[state][action] += 1
-        
+
         if next_state is None:  # Terminal state
             q_value = self.q_table.get(state, {"h": 0.0, "s": 0.0}).get(action, 0.0)
             new_value = q_value + self.alpha * (reward - q_value)
@@ -459,8 +463,9 @@ class SARSAOnPolicyControl(PlayerRLAgent):
 
         self.q_table.setdefault(state, {"h": 0.0, "s": 0.0})[action] = new_value
 
+
 class QLearningOffPolicyControl(SARSAOnPolicyControl):
-    def __init__(self, alpha=0.1, gamma=0.9, epsilon=0.1, epsilon_config='1/k'):
+    def __init__(self, alpha: float = 0.1, gamma: float = 0.9, epsilon: float = 0.1, epsilon_config: str = '1/k'):
         super().__init__(alpha, gamma, epsilon, epsilon_config)
 
     def update_q_table_sarsa(self, state, action, reward, next_state):
@@ -474,15 +479,16 @@ class QLearningOffPolicyControl(SARSAOnPolicyControl):
         new_value = current_value + self.alpha * (reward + self.gamma * next_state_value - current_value)
 
         self.q_table.setdefault(state, {"h": 0.0, "s": 0.0})[action] = new_value
-        
+
         self.q_table_counts.setdefault(state, {}).setdefault(action, 0)
         self.q_table_counts[state][action] += 1
-        
+
+
 def plot_results(records, algorithm_name, config_name, suffix):
     wins = [record[0] for record in records]
     draws = [record[1] for record in records]
     losses = [record[2] for record in records]
-    
+
     # Create x-axis values representing each 1000 episodes
     episodes = list(range(1000, (len(records) + 1) * 1000, 1000))
 
@@ -497,25 +503,28 @@ def plot_results(records, algorithm_name, config_name, suffix):
     plt.title(f'{algorithm_name} ({config_name}) - Results per 1000 Episodes')
     plt.legend()
     plt.grid(True)
-    
+
     # Save the plot to a file
     cwd = os.getcwd()
+    if not os.path.exists("plots"):
+        os.makedirs("plots")
     file_name = os.path.join(cwd, "plots/")
     file_name = file_name + "line_" + suffix + ".png"
     plt.savefig(file_name)
     plt.close()
-    
+
+
 def plot_state_action_counts(q_table_counts, algorithm_name, config_name, suffix):
     flattened_counts = [(state, action, count) for state, actions in q_table_counts.items() for action, count in actions.items()]
-    
+
     sorted_counts = sorted(flattened_counts, key=lambda x: x[2], reverse=True)
-    
+
     states_actions_true = [f"{state[:-1]} ({action})" for state, action, _ in sorted_counts if True in state]
     counts_true = [count for state, _, count in sorted_counts if True in state]
-    
+
     states_actions_false = [f"{state[:-1]} ({action})" for state, action, _ in sorted_counts if True not in state]
     counts_false = [count for state, _, count in sorted_counts if True not in state]
-    
+
     # Plot chart for states with "True"
     plt.figure(figsize=(26, 15))
     plt.bar(states_actions_true, counts_true, color='skyblue')
@@ -523,15 +532,15 @@ def plot_state_action_counts(q_table_counts, algorithm_name, config_name, suffix
     plt.ylabel('Count')
     plt.title(f'{algorithm_name} ({config_name}) - State-Action Pair Counts Holding an Ace')
     plt.xticks(rotation=90)
-    plt.tight_layout() 
+    plt.tight_layout()
     plt.margins(x=0.001)
-    
+
     # Save the plot to a file
     cwd = os.getcwd()
     file_name_true = os.path.join(cwd, "plots/") + "count_true_" + suffix + ".png"
     plt.savefig(file_name_true)
     plt.close()
-    
+
     # Plot chart for states without "True"
     plt.figure(figsize=(26, 15))
     plt.bar(states_actions_false, counts_false, color='skyblue')
@@ -541,12 +550,13 @@ def plot_state_action_counts(q_table_counts, algorithm_name, config_name, suffix
     plt.xticks(rotation=90)
     plt.tight_layout()
     plt.margins(x=0.001)
-    
+
     # Save the plot to a file
     file_name_false = os.path.join(cwd, "plots/") + "count_false_" + suffix + ".png"
     plt.savefig(file_name_false)
     plt.close()
-    
+
+
 def build_strategy_table(q_table, suffix, title):
     action_map = {"h": "H", "s": "S"}
 
@@ -575,13 +585,14 @@ def build_strategy_table(q_table, suffix, title):
     plot_and_save_strategy_table(matrix_with_ace, f"strategy_table_with_ace_{suffix}", f"{title} - Available Ace")
     plot_and_save_strategy_table(matrix_without_ace, f"strategy_table_no_ace_{suffix}", f"{title} - No available Ace")
 
+
 def plot_and_save_strategy_table(matrix, filename, title):
     import matplotlib.colors as mcolors
     cmap_light = mcolors.ListedColormap(['lightblue', 'lightcoral'])
-    
+
     # Create heatmap
     plt.figure(figsize=(10, 6))
-    
+
     # Convert strings to numerical data
     matrix_numeric = np.zeros_like(matrix, dtype=float)
     for i in range(matrix.shape[0]):
@@ -592,7 +603,7 @@ def plot_and_save_strategy_table(matrix, filename, title):
             elif matrix[i, j] == 'S':
                 matrix_numeric[i, j] = 0.0
                 plt.text(j, i, 'S', ha='center', va='center', color='black')  # Annotation for 'S'
-    
+
     plt.imshow(matrix_numeric, cmap=cmap_light, interpolation='nearest')
 
     plt.xlabel("Dealer's Card")
@@ -606,7 +617,8 @@ def plot_and_save_strategy_table(matrix, filename, title):
     file_path = os.path.join(cwd, "plots/") + filename + ".png"
     plt.savefig(file_path)
     plt.close()
-    
+
+
 def calculate_mean_win_loss(win_loss_table):
     last_records = win_loss_table[-10:]
     wins = sum(record[0] for record in last_records) / len(last_records)
@@ -614,13 +626,16 @@ def calculate_mean_win_loss(win_loss_table):
     losses = sum(record[2] for record in last_records) / len(last_records)
     return wins, draws, losses
 
+
 def calculate_dealer_advantage(win_loss_table):
     last_records = win_loss_table[-10:]
     wins = sum(record[0] for record in last_records)
     losses = sum(record[2] for record in last_records)
     return (losses - wins) / (losses + wins)
 
+
 dealer_advantages = []
+
 
 def run_algorithm_configurations(num_episodes=100000):
     configurations = [
@@ -654,17 +669,16 @@ def run_algorithm_configurations(num_episodes=100000):
         deck = Deck()
         game_with_rl = BlackJackWithRL(deck, player, dealer)
         game_with_rl.start(num_episodes)
-        
+
         total_explored = sum(len(v) for v in player.q_table_counts.values())
         total_unique_sa_pairs.setdefault(config["algorithm"], []).append(total_explored)
-        
+
         plot_results(game_with_rl.win_loss_table, config['algorithm'], config['epsilon_config'], config["file_suffix"])
         plot_state_action_counts(player.q_table_counts, config['algorithm'], config['epsilon_config'], config["file_suffix"])
         build_strategy_table(player.q_table, config["file_suffix"], f"{config['algorithm']} {config['epsilon_config']}")
-        
+
         dealer_advantage = calculate_dealer_advantage(game_with_rl.win_loss_table)
         dealer_advantages.append(dealer_advantage)
-        
     # Plot histograms for each algorithm
     for algorithm, total_explored_list in total_unique_sa_pairs.items():
         plt.figure()  # Create a new figure for each algorithm
@@ -679,7 +693,7 @@ def run_algorithm_configurations(num_episodes=100000):
         file_name = os.path.join(cwd, "plots/") + "exploration" + algorithm + ".png"
         plt.savefig(file_name)
         plt.close()
-        
+
     # Plot dealer advantages as a bar chart
     plt.figure(figsize=(10, 6))
     plt.bar(range(len(dealer_advantages)), dealer_advantages)
@@ -692,5 +706,6 @@ def run_algorithm_configurations(num_episodes=100000):
     file_name = os.path.join(cwd, "plots/") + "dealer_advantage.png"
     plt.savefig(file_name)
     plt.close()
-     
+
+
 run_algorithm_configurations(100000)
