@@ -500,7 +500,7 @@ def plot_results(records, algorithm_name, config_name, suffix):
 
     plt.xlabel('Episodes')
     plt.ylabel('Count')
-    plt.title(f'{algorithm_name} ({config_name}) - Results per 1000 Episodes')
+    plt.title(f'{algorithm_name} ε = ({config_name}) - Results per 1000 Episodes')
     plt.legend()
     plt.grid(True)
 
@@ -530,7 +530,7 @@ def plot_state_action_counts(q_table_counts, algorithm_name, config_name, suffix
     plt.bar(states_actions_true, counts_true, color='skyblue')
     plt.xlabel('State-Action Pair')
     plt.ylabel('Count')
-    plt.title(f'{algorithm_name} ({config_name}) - State-Action Pair Counts Holding an Ace')
+    plt.title(f'{algorithm_name} ε = ({config_name}) - State-Action Pair Counts Holding an Ace')
     plt.xticks(rotation=90)
     plt.tight_layout()
     plt.margins(x=0.001)
@@ -546,7 +546,7 @@ def plot_state_action_counts(q_table_counts, algorithm_name, config_name, suffix
     plt.bar(states_actions_false, counts_false, color='skyblue')
     plt.xlabel('State-Action Pair')
     plt.ylabel('Count')
-    plt.title(f'{algorithm_name} ({config_name}) - State-Action Pair Counts Without an Ace')
+    plt.title(f'{algorithm_name} ε = ({config_name}) - State-Action Pair Counts Without an Ace')
     plt.xticks(rotation=90)
     plt.tight_layout()
     plt.margins(x=0.001)
@@ -673,9 +673,9 @@ def run_algorithm_configurations(num_episodes=100000):
         total_explored = sum(len(v) for v in player.q_table_counts.values())
         total_unique_sa_pairs.setdefault(config["algorithm"], []).append(total_explored)
 
-        plot_results(game_with_rl.win_loss_table, config['algorithm'], config['epsilon_config'], config["file_suffix"])
-        plot_state_action_counts(player.q_table_counts, config['algorithm'], config['epsilon_config'], config["file_suffix"])
-        build_strategy_table(player.q_table, config["file_suffix"], f"{config['algorithm']} {config['epsilon_config']}")
+        plot_results(game_with_rl.win_loss_table, config['algorithm'], config['epsilon_config'] + (" with exploring starts" if 'exploring_starts' in config and config['exploring_starts'] else ""), config["file_suffix"])
+        plot_state_action_counts(player.q_table_counts, config['algorithm'], config['epsilon_config']  + (" with exploring starts" if 'exploring_starts' in config and config['exploring_starts'] else ""), config["file_suffix"])
+        build_strategy_table(player.q_table, config["file_suffix"], f"{config['algorithm']} ε = {config['epsilon_config']}" + (" with exploring starts" if 'exploring_starts' in config and config['exploring_starts'] else ""))
 
         dealer_advantage = calculate_dealer_advantage(game_with_rl.win_loss_table)
         dealer_advantages.append(dealer_advantage)
@@ -690,7 +690,7 @@ def run_algorithm_configurations(num_episodes=100000):
 
         # Save the plot to a file
         cwd = os.getcwd()
-        file_name = os.path.join(cwd, "plots/") + "exploration" + algorithm + ".png"
+        file_name = os.path.join(cwd, "plots/") + "exploration_" + algorithm + ".png"
         plt.savefig(file_name)
         plt.close()
 
@@ -700,7 +700,14 @@ def run_algorithm_configurations(num_episodes=100000):
     plt.xlabel('Algorithm Configuration')
     plt.ylabel('Dealer Advantage')
     plt.title('Dealer Advantage of Different Algorithm Configurations')
-    plt.xticks(range(len(configurations)), [f"{config['algorithm']}-{config['epsilon_config']}" for config in configurations], rotation=90)
+    plt.xticks(
+        range(len(configurations)),
+        [
+            f"{config['algorithm']}- ε = {config['epsilon_config']}" + (" with exploring starts" if 'exploring_starts' in config and config['exploring_starts'] else "")
+            for config in configurations
+        ],
+        rotation=90
+    )
     plt.grid(axis='y')  # Add gridlines only on the y-axis
     plt.tight_layout()
     file_name = os.path.join(cwd, "plots/") + "dealer_advantage.png"

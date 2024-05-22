@@ -28,17 +28,17 @@ Reinforcement Learning algorithms learn an optimal policy by interacting with th
 
 The project implements three reinforcement learning (RL) algorithms for playing the game of Blackjack: Monte Carlo Control with exploring starts, SARSA (State-Action-Reward-State-Action), and Q-Learning. Each algorithm follows a distinct approach to learning optimal policies through interaction with the environment.
 
-1. **Monte Carlo Control with Exploring Starts**:
-   - **Exploring Starts**: This technique ensures exploration by starting episodes with both states and actions sampled uniformly. This guarantees that all state-action pairs are visited infinitely often in the limit, which is a necessary condition for convergence to the optimal policy.
+1. **Monte Carlo On-Policy Control**:
+   - **Exploring Starts**: One configuration of Monte Carlo uses Exploring Starts. This technique ensures exploration by starting episodes with both states and actions sampled uniformly. This guarantees that all state-action pairs are visited infinitely often in the limit, which is a necessary condition for convergence to the optimal policy.
    - **Epsilon-Greedy Policy**: During action selection, it balances exploration (random actions) and exploitation (greedy actions based on learned Q-values) based on a specified epsilon parameter. This allows the algorithm to explore different actions while gradually favoring those that have yielded higher rewards in the past.
    - **Q-Value Update**: Q-values are updated after completing episodes using the average return observed for each state-action pair encountered. This is a simple and effective way to estimate the expected return of each state-action pair under the current policy.
 
-2. **SARSA (State-Action-Reward-State-Action)**:
+2. **SARSA (State-Action-Reward-State-Action) On-Policy	Control**:
    - **Epsilon-Greedy Policy**: Similar to Monte Carlo, SARSA uses an epsilon-greedy policy to balance exploration and exploitation. This allows the algorithm to gradually improve its policy while ensuring sufficient exploration.
    - **On-Policy Update**: Q-values are updated after each action using the current action and the next action derived from the policy. This makes SARSA an on-policy algorithm, meaning it learns the value of the policy it follows.
    - **Terminal State Handling**: Adjustments are made in terminal states to ensure the correct calculation of Q-values based on rewards and next state values. This is necessary because the value of the terminal state is always zero in episodic tasks.
 
-3. **Q-Learning**:
+3. **Q-Learning Off-Policy	Control**:
    - **Epsilon-Greedy Policy**: Q-Learning also employs an epsilon-greedy policy but learns from the maximum Q-value of the next state rather than the action actually taken. This allows it to learn the optimal policy regardless of the policy being followed.
    - **Off-Policy Update**: Q-values are updated irrespective of the action actually chosen, based on the maximum Q-value of the next state. This makes Q-Learning an off-policy algorithm, capable of learning the optimal policy while following a different (exploratory) policy.
    - **Comparison with SARSA**: Q-Learning tends to converge to the optimal policy faster than SARSA due to its off-policy nature but may overestimate Q-values in certain scenarios. This is known as the "maximization bias" and can lead to instability in some cases.
@@ -95,7 +95,7 @@ We used the following parameters for our experiments:
 
 - **Gamma (γ)**: The discount factor, set to 0.9. This parameter determines how much the agent values future rewards compared to immediate rewards. A higher gamma means the agent values future rewards more, promoting strategies that may not yield immediate rewards but are beneficial in the long run.
 
-- **Epsilon (ε)**: The exploration rate, set to 0.1. This parameter determines the probability of the agent choosing a random action (exploration) over the action with the highest Q-value (exploitation).
+- **Epsilon (ε)**: The exploration rate, set to 0.1. This is the default value of the parameter, and is overridden by the appropriate epsilon configuration as needed. This parameter determines the probability of the agent choosing a random action (exploration) over the action with the highest Q-value (exploitation).
 
 ### Configurations
 
@@ -103,7 +103,7 @@ We tested each algorithm with different epsilon configurations to study the effe
 
 1. **1/k**: Epsilon decreases over time as `1/k`, where `k` is the episode number. This configuration ensures that the amount of exploration gradually decreases over time, allowing the agent to exploit its learned knowledge more as it gains experience.
 
-2. **e^(-k/1000)**: Epsilon decreases exponentially over time as `e^(-k/1000)`. This configuration results in a faster decrease in exploration, forcing the agent to rely on its learned knowledge sooner.
+2. **e^(-k/1000)**: Epsilon decreases exponentially over time as `e^(-k/1000)`. This configuration results in a more gradual decrease in exploration, forcing the agent to explore more states at the start.
 
 3. **e^(-k/10000)**: Epsilon decreases exponentially over time as `e^(-k/10000)`, but at a slower rate compared to `e^(-k/1000)`. This configuration allows for more exploration in the early stages of learning.
 
@@ -117,8 +117,9 @@ We analyzed the performance of each algorithm based on the win-loss-draw counts 
 
 ### Monte Carlo Method
 
-#### Win-Loss-Darw Counts
+#### Win-Loss-Draw Counts
 
+![Monte Carlo (1/k) using Exploring Starts Results](plots/line_mc_t_1k.png)
 ![Monte Carlo (1/k) Results](plots/line_mc_f_1k.png)
 ![Monte Carlo (e^(-k/1000)) Results](plots/line_mc_f_-k1000.png)
 ![Monte Carlo (e^(-k/10000)) Results](plots/line_mc_f_-k10000.png)
@@ -134,8 +135,9 @@ The state-action pair counts reveal the frequency of each action taken in differ
 
 ### SARSA
 
-#### Win-Loss-Darw Counts
+#### Win-Loss-Draw Counts
 
+![SARSA 0.1 Results](plots/line_sarsa_e.png)
 ![SARSA (1/k) Results](plots/line_sarsa_1k.png)
 ![SARSA (e^(-k/1000)) Results](plots/line_sarsa_-k1000.png)
 ![SARSA (e^(-k/10000)) Results](plots/line_sarsa_-k10000.png)
@@ -151,8 +153,9 @@ The state-action pair counts for SARSA further illustrate the balance between ex
 
 ### Q-Learning
 
-#### Win-Loss-Darw Counts
+#### Win-Loss-Draw Counts
 
+![Q-Learning 0.1 Results](plots/line_qlearn_e.png)
 ![Q-Learning (1/k) Results](plots/line_qlearn_1k.png)
 ![Q-Learning (e^(-k/1000)) Results](plots/line_qlearn_-k1000.png)
 ![Q-Learning (e^(-k/10000)) Results](plots/line_qlearn_-k10000.png)
@@ -168,42 +171,46 @@ The state-action pair counts for Q-learning highlight the aggressive nature of i
 
 ### Strategy Tables
 
-The strategy tables provide a visual representation of the optimal actions in different states as learned by each algorithm. These tables serve as a valuable tool for understanding the learned policies and their implications on the game strategy.
+The strategy tables provide a visual representation of the optimal actions in different states as learned by each algorithm. These tables serve as a valuable tool for understanding the learned policies and their implications on the game strategy. The ones shown below use the same epsilon configuration.
 
 #### Monte Carlo Strategy Table
 
-![Strategy Table with Ace - MC](plots/strategy_table_with_ace_mc_f_1k.png)
-![Strategy Table No Ace - MC](plots/strategy_table_no_ace_mc_f_1k.png)
+![Strategy Table with Ace - MC](plots/strategy_table_with_ace_mc_f_-k1000.png)
+![Strategy Table No Ace - MC](plots/strategy_table_no_ace_mc_f_-k1000.png)
 
 #### SARSA Strategy Table
 
-![Strategy Table with Ace - SARSA](plots/strategy_table_with_ace_sarsa_1k.png)
-![Strategy Table No Ace - SARSA](plots/strategy_table_no_ace_sarsa_1k.png)
+![Strategy Table with Ace - SARSA](plots/strategy_table_with_ace_sarsa_-k1000.png)
+![Strategy Table No Ace - SARSA](plots/strategy_table_no_ace_sarsa_-k1000.png)
 
 #### Q-Learning Strategy Table
 
-![Strategy Table with Ace - Q-Learning](plots/strategy_table_with_ace_qlearn_1k.png)
-![Strategy Table No Ace - Q-Learning](plots/strategy_table_no_ace_qlearn_1k.png)
+![Strategy Table with Ace - Q-Learning](plots/strategy_table_with_ace_qlearn_-k1000.png)
+![Strategy Table No Ace - Q-Learning](plots/strategy_table_no_ace_qlearn_-k1000.png)
 
-You can find more graph and strategy tables in the [appendix file](appendix.pdf).
+You can access the complete set of graphs and strategy tables in the [appendix file](appendix.pdf).
 
 ## Discussion
 
+![Dealer Advantage](plots/dealer_advantage.png)
+
+The above plot is the calculated dealer advantage for each algorithm configuration. On average, Monte Carlo learns to minimize the dealer advantage best, especially when more states are explored during early exploration.
+
 ### Exploration vs. Exploitation
 
-The balance between exploration and exploitation significantly impacted each algorithm's performance. Exponential decay (`e^(-k/1000)` and `e^(-k/10000)`) allowed for faster convergence by reducing exploration more quickly compared to the `1/k` method. This resulted in quicker stabilization of policies but might risk local optima.
+The balance between exploration and exploitation significantly impacted each algorithm's performance. Exponential decay (`e^(-k/1000)` and `e^(-k/10000)`) allowed for faster convergence by reducing exploration more gradually compared to the `1/k` method. This resulted in slower stabilization of policies and might risk inoptimal exploitation until the algorithm converges.
 
-In terms of algorithm comparison, Monte Carlo, being suitable for problems where episodes can be fully simulated, showed effective but slow convergence. SARSA, being an on-policy algorithm, demonstrated reliable and stable learning with moderate convergence speed. Q-Learning, being an off-policy algorithm, showed fast convergence, especially with exponential decay strategies, but can be less stable.
+In terms of algorithm comparison, Monte Carlo, being suitable for problems where episodes can be fully simulated, showed effective but slow convergence. SARSA, being an on-policy algorithm, demonstrated reliable and stable learning with moderate convergence speed. Q-Learning, being an off-policy algorithm showed fast convergence, even with the use of exponential decay strategies, but can be less stable.
 
 ### Algorithm Comparison
 
 - **Monte Carlo**: Suitable for problems where episodes can be fully simulated. Effective but slow convergence.
 - **SARSA**: Reliable and stable learning with moderate convergence speed. Suitable for on-policy learning.
-- **Q-Learning**: Fast convergence, especially with exponential decay strategies, but can be less stable. Best for off-policy learning.
+- **Q-Learning**: Fast convergence, even with exponential decay strategies, but can be less stable. Best for off-policy learning.
 
 ## Conclusion
 
-This study demonstrates the application of Monte Carlo, SARSA, and Q-learning algorithms in Blackjack. Each algorithm's configuration significantly affects its learning performance. Exponential decay exploration strategies generally lead to faster convergence. Future work can explore combining these methods or using more advanced techniques like Deep Q-Learning for further improvements. The results of this study provide valuable insights into the dynamics of reinforcement learning algorithms and their application in complex environments like Blackjack.
+This study demonstrates the application of Monte Carlo, SARSA, and Q-learning algorithms in Blackjack. Each algorithm's configuration significantly affects its learning performance. Exponential decay exploration strategies generally lead to slower convergence but enable better exploration of the search space. Future work can explore combining these methods or using more advanced techniques like Deep Q-Learning for further improvements. The results of this study provide valuable insights into the dynamics of reinforcement learning algorithms and their application in complex environments like Blackjack.
 
 ## References
 

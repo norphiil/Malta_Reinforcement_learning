@@ -1,258 +1,268 @@
 # Appendix
 
-## Count_false_mc_f_-k1000
+## State-Action Pair Counts excluding states with no available Aces
 
-![count_false_mc_f_-k1000.png](plots/count_false_mc_f_-k1000.png)
-
-## Count_false_mc_f_-k10000
-
-![count_false_mc_f_-k10000.png](plots/count_false_mc_f_-k10000.png)
-
-## Count_false_mc_f_1k
-
-![count_false_mc_f_1k.png](plots/count_false_mc_f_1k.png)
-
-## Count_false_mc_t_1k
+### Monte-Carlo, epsilon=1/k with exploring starts
 
 ![count_false_mc_t_1k.png](plots/count_false_mc_t_1k.png)
 
-## Count_false_qlearn_-k1000
+### Monte-Carlo, epsilon=1/k
 
-![count_false_qlearn_-k1000.png](plots/count_false_qlearn_-k1000.png)
+![count_false_mc_f_1k.png](plots/count_false_mc_f_1k.png)
 
-## Count_false_qlearn_-k10000
+### Monte-Carlo, epsilon=e^(-k/1000)
 
-![count_false_qlearn_-k10000.png](plots/count_false_qlearn_-k10000.png)
+![count_false_mc_f_-k1000.png](plots/count_false_mc_f_-k1000.png)
 
-## Count_false_qlearn_1k
+### Monte-Carlo, epsilon=e^(-k/10000)
 
-![count_false_qlearn_1k.png](plots/count_false_qlearn_1k.png)
+![count_false_mc_f_-k10000.png](plots/count_false_mc_f_-k10000.png)
 
-## Count_false_qlearn_e
+### Q-learning, epsilon=0.1
 
 ![count_false_qlearn_e.png](plots/count_false_qlearn_e.png)
 
-## Count_false_sarsa_-k1000
+### Q-learning, epsilon=1/k
 
-![count_false_sarsa_-k1000.png](plots/count_false_sarsa_-k1000.png)
+![count_false_qlearn_1k.png](plots/count_false_qlearn_1k.png)
 
-## Count_false_sarsa_-k10000
+### Q-learning, epsilon=e^(-k/1000)
 
-![count_false_sarsa_-k10000.png](plots/count_false_sarsa_-k10000.png)
+![count_false_qlearn_-k1000.png](plots/count_false_qlearn_-k1000.png)
 
-## Count_false_sarsa_1k
+### Q-learning, epsilon=e^(-k/10000)
 
-![count_false_sarsa_1k.png](plots/count_false_sarsa_1k.png)
+![count_false_qlearn_-k10000.png](plots/count_false_qlearn_-k10000.png)
 
-## Count_false_sarsa_e
+### SARSA, epsilon=0.1
 
-![count_false_sarsa_e.png](plots/count_false_sarsa_e.png)
+![count_false_qlearn_e.png](plots/count_false_sarsa_e.png)
 
-## Count_true_mc_f_-k1000
+### SARSA, epsilon=1/k
 
-![count_true_mc_f_-k1000.png](plots/count_true_mc_f_-k1000.png)
+![count_false_qlearn_1k.png](plots/count_false_sarsa_1k.png)
 
-## Count_true_mc_f_-k10000
+### SARSA, epsilon=e^(-k/1000)
 
-![count_true_mc_f_-k10000.png](plots/count_true_mc_f_-k10000.png)
+![count_false_qlearn_-k1000.png](plots/count_false_sarsa_-k1000.png)
 
-## Count_true_mc_f_1k
+### SARSA, epsilon=e^(-k/10000)
 
-![count_true_mc_f_1k.png](plots/count_true_mc_f_1k.png)
+![count_false_qlearn_-k10000.png](plots/count_false_sarsa_-k10000.png)
 
-## Count_true_mc_t_1k
+## State-Action Pair Counts excluding states with available Aces
+
+### Monte-Carlo, epsilon=1/k with exploring starts
 
 ![count_true_mc_t_1k.png](plots/count_true_mc_t_1k.png)
 
-## Count_true_qlearn_-k1000
+### Monte-Carlo, epsilon=1/k
 
-![count_true_qlearn_-k1000.png](plots/count_true_qlearn_-k1000.png)
+![count_true_mc_f_1k.png](plots/count_true_mc_f_1k.png)
 
-## Count_true_qlearn_-k10000
+### Monte-Carlo, epsilon=e^(-k/1000)
 
-![count_true_qlearn_-k10000.png](plots/count_true_qlearn_-k10000.png)
+![count_true_mc_f_-k1000.png](plots/count_true_mc_f_-k1000.png)
 
-## Count_true_qlearn_1k
+### Monte-Carlo, epsilon=e^(-k/10000)
 
-![count_true_qlearn_1k.png](plots/count_true_qlearn_1k.png)
+![count_true_mc_f_-k10000.png](plots/count_true_mc_f_-k10000.png)
 
-## Count_true_qlearn_e
+### Q-learning, epsilon=0.1
 
 ![count_true_qlearn_e.png](plots/count_true_qlearn_e.png)
 
-## Count_true_sarsa_-k1000
+### Q-learning, epsilon=1/k
 
-![count_true_sarsa_-k1000.png](plots/count_true_sarsa_-k1000.png)
+![count_true_qlearn_1k.png](plots/count_true_qlearn_1k.png)
 
-## Count_true_sarsa_-k10000
+### Q-learning, epsilon=e^(-k/1000)
 
-![count_true_sarsa_-k10000.png](plots/count_true_sarsa_-k10000.png)
+![count_true_qlearn_-k1000.png](plots/count_true_qlearn_-k1000.png)
 
-## Count_true_sarsa_1k
+### Q-learning, epsilon=e^(-k/10000)
 
-![count_true_sarsa_1k.png](plots/count_true_sarsa_1k.png)
+![count_true_qlearn_-k10000.png](plots/count_true_qlearn_-k10000.png)
 
-## Count_true_sarsa_e
+### SARSA, epsilon=0.1
 
-![count_true_sarsa_e.png](plots/count_true_sarsa_e.png)
+![count_true_qlearn_e.png](plots/count_true_sarsa_e.png)
 
-## Dealer_advantage
+### SARSA, epsilon=1/k
+
+![count_true_qlearn_1k.png](plots/count_true_sarsa_1k.png)
+
+### SARSA, epsilon=e^(-k/1000)
+
+![count_true_qlearn_-k1000.png](plots/count_true_sarsa_-k1000.png)
+
+### SARSA, epsilon=e^(-k/10000)
+
+![count_true_qlearn_-k10000.png](plots/count_true_sarsa_-k10000.png)
+
+## Dealer advantage
 
 ![dealer_advantage.png](plots/dealer_advantage.png)
 
-## Explorationmonte_carlo
+## Total number of visited states-action pairs
 
-![explorationMonte_Carlo.png](plots/explorationMonte_Carlo.png)
+### Monte Carlo
 
-## Explorationqlearning
+![explorationMonte_Carlo.png](plots/exploration_Monte_Carlo.png)
 
-![explorationQLearning.png](plots/explorationQLearning.png)
+### Q-learning
 
-## Explorationsarsa
+![explorationQLearning.png](plots/exploration_QLearning.png)
 
-![explorationSARSA.png](plots/explorationSARSA.png)
+### SARSA
 
-## Line_mc_f_-k1000
+![explorationSARSA.png](plots/exploration_SARSA.png)
 
-![line_mc_f_-k1000.png](plots/line_mc_f_-k1000.png)
+## Win-Loss over time
 
-## Line_mc_f_-k10000
-
-![line_mc_f_-k10000.png](plots/line_mc_f_-k10000.png)
-
-## Line_mc_f_1k
-
-![line_mc_f_1k.png](plots/line_mc_f_1k.png)
-
-## Line_mc_t_1k
+### Monte-Carlo, epsilon=1/k with exploring starts
 
 ![line_mc_t_1k.png](plots/line_mc_t_1k.png)
 
-## Line_qlearn_-k1000
+### Monte-Carlo, epsilon=1/k
 
-![line_qlearn_-k1000.png](plots/line_qlearn_-k1000.png)
+![line_mc_f_1k.png](plots/line_mc_f_1k.png)
 
-## Line_qlearn_-k10000
+### Monte-Carlo, epsilon=e^(-k/1000)
 
-![line_qlearn_-k10000.png](plots/line_qlearn_-k10000.png)
+![line_mc_f_-k1000.png](plots/line_mc_f_-k1000.png)
 
-## Line_qlearn_1k
+### Monte-Carlo, epsilon=e^(-k/10000)
 
-![line_qlearn_1k.png](plots/line_qlearn_1k.png)
+![line_mc_f_-k10000.png](plots/line_mc_f_-k10000.png)
 
-## Line_qlearn_e
+### Q-learning, epsilon=0.1
 
 ![line_qlearn_e.png](plots/line_qlearn_e.png)
 
-## Line_sarsa_-k1000
+### Q-learning, epsilon=1/k
 
-![line_sarsa_-k1000.png](plots/line_sarsa_-k1000.png)
+![line_qlearn_1k.png](plots/line_qlearn_1k.png)
 
-## Line_sarsa_-k10000
+### Q-learning, epsilon=e^(-k/1000)
 
-![line_sarsa_-k10000.png](plots/line_sarsa_-k10000.png)
+![line_qlearn_-k1000.png](plots/line_qlearn_-k1000.png)
 
-## Line_sarsa_1k
+### Q-learning, epsilon=e^(-k/10000)
 
-![line_sarsa_1k.png](plots/line_sarsa_1k.png)
+![line_qlearn_-k10000.png](plots/line_qlearn_-k10000.png)
 
-## Line_sarsa_e
+### SARSA, epsilon=0.1
 
 ![line_sarsa_e.png](plots/line_sarsa_e.png)
 
-## Strategy_table_no_ace_mc_f_-k1000
+### SARSA, epsilon=1/k
 
-![strategy_table_no_ace_mc_f_-k1000.png](plots/strategy_table_no_ace_mc_f_-k1000.png)
+![line_sarsa_1k.png](plots/line_sarsa_1k.png)
 
-## Strategy_table_no_ace_mc_f_-k10000
+### SARSA, epsilon=e^(-k/1000)
 
-![strategy_table_no_ace_mc_f_-k10000.png](plots/strategy_table_no_ace_mc_f_-k10000.png)
+![line_sarsa_-k1000.png](plots/line_sarsa_-k1000.png)
 
-## Strategy_table_no_ace_mc_f_1k
+### SARSA, epsilon=e^(-k/10000)
 
-![strategy_table_no_ace_mc_f_1k.png](plots/strategy_table_no_ace_mc_f_1k.png)
+![line_sarsa_-k10000.png](plots/line_sarsa_-k10000.png)
 
-## Strategy_table_no_ace_mc_t_1k
+## Strategy Tables
+
+### Monte-Carlo, epsilon=1/k with exploring starts (No available Aces)
 
 ![strategy_table_no_ace_mc_t_1k.png](plots/strategy_table_no_ace_mc_t_1k.png)
 
-## Strategy_table_no_ace_qlearn_-k1000
+### Monte-Carlo, epsilon=1/k (No available Aces)
 
-![strategy_table_no_ace_qlearn_-k1000.png](plots/strategy_table_no_ace_qlearn_-k1000.png)
+![strategy_table_no_ace_mc_f_1k.png](plots/strategy_table_no_ace_mc_f_1k.png)
 
-## Strategy_table_no_ace_qlearn_-k10000
+### Monte-Carlo, epsilon=e^(-k/1000) (No available Aces)
 
-![strategy_table_no_ace_qlearn_-k10000.png](plots/strategy_table_no_ace_qlearn_-k10000.png)
+![strategy_table_no_ace_mc_f_-k1000.png](plots/strategy_table_no_ace_mc_f_-k1000.png)
 
-## Strategy_table_no_ace_qlearn_1k
+### Monte-Carlo, epsilon=e^(-k/10000) (No available Aces)
 
-![strategy_table_no_ace_qlearn_1k.png](plots/strategy_table_no_ace_qlearn_1k.png)
+![strategy_table_no_ace_mc_f_-k10000.png](plots/strategy_table_no_ace_mc_f_-k10000.png)
 
-## Strategy_table_no_ace_qlearn_e
+### Q-learning, epsilon=0.1 (No available Aces)
 
 ![strategy_table_no_ace_qlearn_e.png](plots/strategy_table_no_ace_qlearn_e.png)
 
-## Strategy_table_no_ace_sarsa_-k1000
+### Q-learning, epsilon=1/k (No available Aces)
 
-![strategy_table_no_ace_sarsa_-k1000.png](plots/strategy_table_no_ace_sarsa_-k1000.png)
+![strategy_table_no_ace_qlearn_1k.png](plots/strategy_table_no_ace_qlearn_1k.png)
 
-## Strategy_table_no_ace_sarsa_-k10000
+### Q-learning, epsilon=e^(-k/1000) (No available Aces)
 
-![strategy_table_no_ace_sarsa_-k10000.png](plots/strategy_table_no_ace_sarsa_-k10000.png)
+![strategy_table_no_ace_qlearn_-k1000.png](plots/strategy_table_no_ace_qlearn_-k1000.png)
 
-## Strategy_table_no_ace_sarsa_1k
+### Q-learning, epsilon=e^(-k/10000) (No available Aces)
 
-![strategy_table_no_ace_sarsa_1k.png](plots/strategy_table_no_ace_sarsa_1k.png)
+![strategy_table_no_ace_qlearn_-k10000.png](plots/strategy_table_no_ace_qlearn_-k10000.png)
 
-## Strategy_table_no_ace_sarsa_e
+### SARSA, epsilon=0.1 (No available Aces)
 
-![strategy_table_no_ace_sarsa_e.png](plots/strategy_table_no_ace_sarsa_e.png)
+![strategy_table_no_ace_qlearn_e.png](plots/strategy_table_no_ace_sarsa_e.png)
 
-## Strategy_table_with_ace_mc_f_-k1000
+### SARSA, epsilon=1/k (No available Aces)
 
-![strategy_table_with_ace_mc_f_-k1000.png](plots/strategy_table_with_ace_mc_f_-k1000.png)
+![strategy_table_no_ace_qlearn_1k.png](plots/strategy_table_no_ace_sarsa_1k.png)
 
-## Strategy_table_with_ace_mc_f_-k10000
+### SARSA, epsilon=e^(-k/1000) (No available Aces)
 
-![strategy_table_with_ace_mc_f_-k10000.png](plots/strategy_table_with_ace_mc_f_-k10000.png)
+![strategy_table_no_ace_qlearn_-k1000.png](plots/strategy_table_no_ace_sarsa_-k1000.png)
 
-## Strategy_table_with_ace_mc_f_1k
+### SARSA, epsilon=e^(-k/10000) (No available Aces)
 
-![strategy_table_with_ace_mc_f_1k.png](plots/strategy_table_with_ace_mc_f_1k.png)
+![strategy_table_no_ace_qlearn_-k10000.png](plots/strategy_table_no_ace_sarsa_-k10000.png)
 
-## Strategy_table_with_ace_mc_t_1k
+### Monte-Carlo, epsilon=1/k with exploring starts (With available Aces)
 
 ![strategy_table_with_ace_mc_t_1k.png](plots/strategy_table_with_ace_mc_t_1k.png)
 
-## Strategy_table_with_ace_qlearn_-k1000
+### Monte-Carlo, epsilon=1/k (With available Aces)
 
-![strategy_table_with_ace_qlearn_-k1000.png](plots/strategy_table_with_ace_qlearn_-k1000.png)
+![strategy_table_with_ace_mc_f_1k.png](plots/strategy_table_with_ace_mc_f_1k.png)
 
-## Strategy_table_with_ace_qlearn_-k10000
+### Monte-Carlo, epsilon=e^(-k/1000) (With available Aces)
 
-![strategy_table_with_ace_qlearn_-k10000.png](plots/strategy_table_with_ace_qlearn_-k10000.png)
+![strategy_table_with_ace_mc_f_-k1000.png](plots/strategy_table_with_ace_mc_f_-k1000.png)
 
-## Strategy_table_with_ace_qlearn_1k
+### Monte-Carlo, epsilon=e^(-k/10000) (With available Aces)
 
-![strategy_table_with_ace_qlearn_1k.png](plots/strategy_table_with_ace_qlearn_1k.png)
+![strategy_table_with_ace_mc_f_-k10000.png](plots/strategy_table_with_ace_mc_f_-k10000.png)
 
-## Strategy_table_with_ace_qlearn_e
+### Q-learning, epsilon=0.1 (With available Aces)
 
 ![strategy_table_with_ace_qlearn_e.png](plots/strategy_table_with_ace_qlearn_e.png)
 
-## Strategy_table_with_ace_sarsa_-k1000
+### Q-learning, epsilon=1/k (With available Aces)
 
-![strategy_table_with_ace_sarsa_-k1000.png](plots/strategy_table_with_ace_sarsa_-k1000.png)
+![strategy_table_with_ace_qlearn_1k.png](plots/strategy_table_with_ace_qlearn_1k.png)
 
-## Strategy_table_with_ace_sarsa_-k10000
+### Q-learning, epsilon=e^(-k/1000) (With available Aces)
 
-![strategy_table_with_ace_sarsa_-k10000.png](plots/strategy_table_with_ace_sarsa_-k10000.png)
+![strategy_table_with_ace_qlearn_-k1000.png](plots/strategy_table_with_ace_qlearn_-k1000.png)
 
-## Strategy_table_with_ace_sarsa_1k
+### Q-learning, epsilon=e^(-k/10000) (With available Aces)
 
-![strategy_table_with_ace_sarsa_1k.png](plots/strategy_table_with_ace_sarsa_1k.png)
+![strategy_table_with_ace_qlearn_-k10000.png](plots/strategy_table_with_ace_qlearn_-k10000.png)
 
-## Strategy_table_with_ace_sarsa_e
+### SARSA, epsilon=0.1 (With available Aces)
 
-![strategy_table_with_ace_sarsa_e.png](plots/strategy_table_with_ace_sarsa_e.png)
+![strategy_table_with_ace_qlearn_e.png](plots/strategy_table_with_ace_sarsa_e.png)
+
+### SARSA, epsilon=1/k (With available Aces)
+
+![strategy_table_with_ace_qlearn_1k.png](plots/strategy_table_with_ace_sarsa_1k.png)
+
+### SARSA, epsilon=e^(-k/1000) (With available Aces)
+
+![strategy_table_with_ace_qlearn_-k1000.png](plots/strategy_table_with_ace_sarsa_-k1000.png)
+
+### SARSA, epsilon=e^(-k/10000) (With available Aces)
+
+![strategy_table_with_ace_qlearn_-k10000.png](plots/strategy_table_with_ace_sarsa_-k10000.png)
 
