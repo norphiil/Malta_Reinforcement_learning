@@ -185,6 +185,8 @@ The strategy tables provide a visual representation of the optimal actions in di
 ![Strategy Table with Ace - Q-Learning](plots/strategy_table_with_ace_qlearn_1k.png)
 ![Strategy Table No Ace - Q-Learning](plots/strategy_table_no_ace_qlearn_1k.png)
 
+You can find more graph and strategy tables in the [appendix file](appendix.pdf).
+
 ## Discussion
 
 ### Exploration vs. Exploitation
@@ -203,10 +205,8 @@ In terms of algorithm comparison, Monte Carlo, being suitable for problems where
 
 This study demonstrates the application of Monte Carlo, SARSA, and Q-learning algorithms in Blackjack. Each algorithm's configuration significantly affects its learning performance. Exponential decay exploration strategies generally lead to faster convergence. Future work can explore combining these methods or using more advanced techniques like Deep Q-Learning for further improvements. The results of this study provide valuable insights into the dynamics of reinforcement learning algorithms and their application in complex environments like Blackjack.
 
-
 ## References
 
 1. [Geiser, J., & Hasseler, T. (n.d.). **Beating Blackjack - A Reinforcement Learning Approach**. Stanford University. This research seeks to develop various learning algorithms for Blackjack play and to verify common strategic approaches to the game. He present these implementation of Sarsa, and Q-Learning.](https://web.stanford.edu/class/aa228/reports/2020/final117.pdf)
 
 2. [Avish Buramdoyal, Tim Gebbie. (2023). **Variations on the Reinforcement Learning performance of Blackjack**. *arXiv:2308.07329 [cs.AI]*. Retrieved from arXiv:2308.07329](https://arxiv.org/abs/2308.07329v1)
-
