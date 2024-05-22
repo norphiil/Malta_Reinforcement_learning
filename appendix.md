@@ -265,4 +265,3 @@
 ### SARSA, epsilon=e^(-k/10000) (With available Aces)
 
 ![strategy_table_with_ace_qlearn_-k10000.png](plots/strategy_table_with_ace_sarsa_-k10000.png)
-
